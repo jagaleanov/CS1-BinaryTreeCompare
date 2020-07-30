@@ -26,6 +26,7 @@ class Tree {
 
     //Buscar nodo por id, se usa solo para añadir nodos al buscar al padre, 
     //el id permite que existan varios nodos con el mismo valor y que se puedan añadir en el punto deseado
+    //además permite llevar facilmente el conteo de nodos en un árbol
     findId(head, id) {
         if (head !== null) {
             var leftSearch = this.findId(head.left, id);
@@ -94,17 +95,17 @@ class Tree {
             var htmlRight = this.toHTML(head.right, treeId);
 
             html = '<li>' +
-                    '<div class="rounded-pill px-2 py-1" data-toggle="modal" data-target="#formModal" data-parent="' + head.id + '" data-parent-value="' + head.value + '" data-tree="' + treeId + '">' +
-                    head.value +
-                    '</div>';
+                '<div class="rounded-pill px-2 py-1" data-toggle="modal" data-target="#formModal" data-parent="' + head.id + '" data-parent-value="' + head.value + '" data-tree="' + treeId + '">' +
+                head.value +
+                '</div>';
 
             if (!(head.left === null && head.right === null)) {
 
                 html += '<ul>' +
-                        htmlLeft +
-                        htmlRight +
-                        '</ul>' +
-                        '</li>';
+                    htmlLeft +
+                    htmlRight +
+                    '</ul>' +
+                    '</li>';
             }
 
             html += '</li>';
@@ -166,32 +167,44 @@ class Tree {
     }
 
     isEqualTo(otherTree) {
-		return this.id === otherTree.id &&
-			this.isEqual(this.head, otherTree.head);
+        //si tienen la misma cantidad de nodos y son iguales al recorrerlos de forma paralela
+        return this.nodeCounter === otherTree.nodeCounter && this.isEqual(this.head, otherTree.head);
     }
 
     isSimilarTo(otherTree) {
+        //si tienen la misma cantidad de nodos 
+        //y NO son iguales
+        //y tienen las mismas relaciones 
+        //y (NO todos los nodos de A estan contenidos en B  o  NO todos los nodos de B estan contenidos en A)
         return this.nodeCounter === otherTree.nodeCounter &&
-			this.hasSameRelations(this.head, otherTree.head) &&
-			!(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
-			!this.isEqualTo(this.head, otherTree.head);
+            !this.isEqual(this.head, otherTree.head) &&
+            this.hasSameRelations(this.head, otherTree.head) &&
+            !(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head));
     }
 
     //Semejantes
     isLike(otherTree) {
+        //si tienen la misma cantidad de nodos 
+        //y NO son iguales
+        //y NO tienen las mismas relaciones 
+        //y (todos los nodos de A estan contenidos en B  y  todos los nodos de B estan contenidos en A)
         return this.nodeCounter === otherTree.nodeCounter &&
-			!this.hasSameRelations(this.head, otherTree.head) &&
-			(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
-			!this.isEqualTo(this.head, otherTree.head);
+            !this.isEqual(this.head, otherTree.head) &&
+            !this.hasSameRelations(this.head, otherTree.head) &&
+            (this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head));
     }
 
     isDistinctTo(otherTree) {
+        //si NO tienen la misma cantidad de nodos o
+        //(NO son iguales
+        //y NO tienen las mismas relaciones 
+        //y (NO todos los nodos de A estan contenidos en B  o  NO todos los nodos de B estan contenidos en A)))
         return this.nodeCounter !== otherTree.nodeCounter ||
-			(
-				!this.hasSameRelations(this.head, otherTree.head) &&
-				!(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
-				!this.isEqualTo(this.head, otherTree.head)
-			);
+            (
+                !this.isEqual(this.head, otherTree.head) &&
+                !this.hasSameRelations(this.head, otherTree.head) &&
+                !(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head))
+            );
     }
 }
 
