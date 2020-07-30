@@ -1,5 +1,4 @@
 // JavaScript Document
-
 class Node {
     id;
     value;
@@ -25,9 +24,9 @@ class Tree {
         this.nodeCounter = 0;
     }
 
+    //Buscar nodo por id, se usa solo para añadir nodos al buscar al padre, 
+    //el id permite que existan varios nodos con el mismo valor y que se puedan añadir en el punto deseado
     findId(head, id) {
-        //console.log("Iniciando busqueda de " + id + " en");
-        //console.log(head);
         if (head !== null) {
             var leftSearch = this.findId(head.left, id);
             var rightSearch = this.findId(head.right, id);
@@ -39,15 +38,14 @@ class Tree {
             } else if (rightSearch !== false) {
                 return rightSearch;
             } else {
-                //console.log("No hay donde buscar, false");
                 return false;
             }
         } else {
-            //console.log("No hay donde buscar, false");
             return false;
         }
     }
 
+    //Buscar nodo por valor, se usa para las comparaciones
     findValue(head, value) {
         if (head !== null) {
             var leftSearch = this.findValue(head.left, value);
@@ -115,50 +113,38 @@ class Tree {
         return html;
     }
 
+    //revisa si los arboles tienen la misma forma sin importar los valores
     hasSameRelations(headA, headB) {
-        //console.log("Iniciando comparacion headA");
-        //console.log(headA);
-        //console.log("Iniciando comparacion headB");
-        //console.log(headB);
         if (headA === null) {
             if (headB === null) {
-                //console.log("ambos son nulos, true");
                 return true;
             } else {
-                //console.log("solo A es nulo, false");
                 return false;
             }
         } else {
             if (headB !== null) {
-                //console.log("hijos iguales, recursion");
                 return this.hasSameRelations(headA.left, headB.left) && this.hasSameRelations(headA.right, headB.right);
             } else {
-                //console.log("hijos distintos, false");
                 return false;
             }
 
         }
     }
 
+    //revisa si todos los nodos del árbol A se encuentran en el arbol B
     hasSameNodes(headA, headB) {
-        //console.log("Iniciando comparacion headA");
-        //console.log(headA);
-        //console.log("Iniciando comparacion headB");
-        //console.log(headB);
         if (headA === null) {
-            //console.log("No hay mas valores en A para buscar, true");
             return true;
         } else {
             if (this.findValue(headB, headA.value)) {
-                //console.log("valor encontrado, recursion");
                 return this.hasSameNodes(headA.left, headB) && this.hasSameNodes(headA.right, headB);
             } else {
-                //console.log("valor NO encontrado, false");
                 return false;
             }
         }
     }
 
+    //recorre los 2 árboles paralelamente hasta encontrar alguna diferencia o devuelve true (recursivo)
     isEqual(headA, headB) {
         if (headA === null) {
             if (headB === null) {
@@ -191,6 +177,7 @@ class Tree {
 			!this.isEqualTo(this.head, otherTree.head);
     }
 
+    //Semejantes
     isLike(otherTree) {
         return this.nodeCounter === otherTree.nodeCounter &&
 			!this.hasSameRelations(this.head, otherTree.head) &&
@@ -215,24 +202,21 @@ function addNode() {
 
     var error = false;
 
+    //revisar a que arbol va a añadir
     if ($('#treeTxt').val() === "A") {
         var tree = treeA;
     } else if ($('#treeTxt').val() === "B") {
         var tree = treeB;
     }
 
-    if ($('#parentTxt').val() !== "root") {
-        console.log("añadiendo a " + $('#parentTxt').val());
-        console.log($('#directionTxt').val());
-
-        if ($('#directionTxt').val() === null) {
+    if ($('#parentTxt').val() !== "root") {//si el padre es diferente a la raiz
+        if ($('#directionTxt').val() === null) {//si la dirección esta vacía
             alert("Seleccione una dirección para el nodo");
             error = true;
         } else {
             tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val());
         }
     } else {
-        console.log("aÃ±adiendo a root");
         tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val());
     }
 
@@ -245,12 +229,12 @@ function addNode() {
 }
 
 function printTrees() {
-    if (treeA.head === null) {
-        $('#addRootA').show();
+    if (treeA.head === null) {//si aun no hay raiz
+        $('#addRootA').show();//mostrar boton de insertar raiz
         $('#ulTreeA').html("Árbol vacío");
     } else {
-        $('#addRootA').hide();
-        $('#ulTreeA').html(treeA.toHTML(treeA.head, "A"));
+        $('#addRootA').hide();//ocultar boton de insertar raiz
+        $('#ulTreeA').html(treeA.toHTML(treeA.head, "A"));//imprimir arbol
     }
 
     if (treeB.head === null) {
@@ -272,8 +256,8 @@ function printCompare() {
     var distinct = treeA.isDistinctTo(treeB);
 
     if (equal) {
-        $('#equalString').html("Verdadero");
-        $('#equalString').attr("class", "badge badge-success");
+        $('#equalString').html("Verdadero");//colocar valor
+        $('#equalString').attr("class", "badge badge-success");//colocar color
     } else {
         $('#equalString').html("Falso");
         $('#equalString').attr("class", "badge badge-danger");
@@ -301,26 +285,24 @@ function printCompare() {
     }
 }
 
-$(document).ready(function () {
-    printTrees();
+$(document).ready(function () {//cuando el documento acabe de cargar
+    printTrees();//imprimir arboles
 
-    $('#formModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var parent = button.data('parent'); // Extract info from data-* attributes
-        var parentValue = button.data('parent-value'); // Extract info from data-parent-value* attributes
-        var tree = button.data('tree'); // Extract info from data-tree* attributes
+    $('#formModal').on('show.bs.modal', function (event) {//listener botones
+        var button = $(event.relatedTarget); // Boton q inicia el div modal
+        var parent = button.data('parent'); // Extrae la info del atributo data-parent 
+        var parentValue = button.data('parent-value'); // Extrae la info del atributo data-parent-value 
+        var tree = button.data('tree'); // Extrae la info del atributo data-tree
         var modal = $(this);
 
-        if (parent === "root") {
-            modal.find('#directionDiv').hide();
-        } else {
-            modal.find('#directionDiv').show();
+        if (parent === "root") {//si estamos añadiendo a la raiz
+            modal.find('#directionDiv').hide();//ocultar campo direccion
+        } else {//sino
+            modal.find('#directionDiv').show();//mostrarlo
         }
 
         modal.find('.modal-title').text('Nuevo nodo en ' + parentValue + ' en el Árbol ' + tree);
-        modal.find('#parentTxt').val(parent);
-        modal.find('#parentValueTxt').val(parentValue);
-        modal.find('#treeTxt').val(tree);
-        $('#valueTxt').focus();
+        modal.find('#parentTxt').val(parent);//llenar el campo parent oculto en el form 
+        modal.find('#treeTxt').val(tree);//llenar el campo tree oculto en el form 
     });
 });
