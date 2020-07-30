@@ -123,7 +123,7 @@ class Tree {
 
         if (headA === null) {
             if (headB === null) {
-                //onsole.log("Ambos nodos son nulos, TRUE");
+                //console.log("Ambos nodos son nulos, TRUE");
                 return true;
             } else {
                 //console.log("Solo A es nulo, FALSE");
@@ -137,7 +137,6 @@ class Tree {
                 //console.log("Solo B es nulo, FALSE");
                 return false;
             }
-
         }
     }
 
