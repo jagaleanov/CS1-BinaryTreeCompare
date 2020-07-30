@@ -158,7 +158,7 @@ class Tree {
         }
     }
 
-    isEqualTo(headA, headB) {
+    isEqual(headA, headB) {
         if (headA === null) {
             if (headB === null) {
                 return true;
@@ -167,7 +167,7 @@ class Tree {
             }
         } else {
             if (headB !== null && headA.value === headB.value) {
-                if (this.isEqualTo(headA.left, headB.left) && this.isEqualTo(headA.right, headB.right)) {
+                if (this.isEqual(headA.left, headB.left) && this.isEqual(headA.right, headB.right)) {
                     return true;
                 } else {
                     return false;
@@ -178,22 +178,32 @@ class Tree {
         }
     }
 
-    isSimilarTo(headB) {
-        return this.hasSameRelations(this.head, headB) &&
-                !(this.hasSameNodes(this.head, headB) && this.hasSameNodes(headB, this.head)) &&
-                !this.isEqualTo(this.head, headB);
+    isEqualTo(otherTree) {
+		return this.id === otherTree.id &&
+			this.isEqual(this.head, otherTree.head);
     }
 
-    isLike(headB) {
-        return !this.hasSameRelations(this.head, headB) &&
-                (this.hasSameNodes(this.head, headB) && this.hasSameNodes(headB, this.head)) &&
-                !this.isEqualTo(this.head, headB);
+    isSimilarTo(otherTree) {
+        return this.nodeCounter === otherTree.nodeCounter &&
+			this.hasSameRelations(this.head, otherTree.head) &&
+			!(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
+			!this.isEqualTo(this.head, otherTree.head);
     }
 
-    isDistinctTo(headB) {
-        return !this.hasSameRelations(this.head, headB) &&
-                !(this.hasSameNodes(this.head, headB) && this.hasSameNodes(headB, this.head)) &&
-                !this.isEqualTo(this.head, headB);
+    isLike(otherTree) {
+        return this.nodeCounter === otherTree.nodeCounter &&
+			!this.hasSameRelations(this.head, otherTree.head) &&
+			(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
+			!this.isEqualTo(this.head, otherTree.head);
+    }
+
+    isDistinctTo(otherTree) {
+        return this.nodeCounter !== otherTree.nodeCounter ||
+			(
+				!this.hasSameRelations(this.head, otherTree.head) &&
+				!(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)) &&
+				!this.isEqualTo(this.head, otherTree.head)
+			);
     }
 }
 
@@ -255,10 +265,10 @@ function printTrees() {
 
 function printCompare() {
 
-    var equal = treeA.isEqualTo(treeA.head, treeB.head);
-    var similar = treeA.isSimilarTo(treeB.head);
-    var like = treeA.isLike(treeB.head);
-    var distinct = treeA.isDistinctTo(treeB.head);
+    var equal = treeA.isEqualTo(treeB);
+    var similar = treeA.isSimilarTo(treeB);
+    var like = treeA.isLike(treeB);
+    var distinct = treeA.isDistinctTo(treeB);
 
     if (equal) {
         $('#equalString').html("Verdadero");
