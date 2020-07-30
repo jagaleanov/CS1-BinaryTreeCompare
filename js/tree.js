@@ -73,13 +73,9 @@ class Tree {
                 this.nodeCounter++;
                 var newNode = new Node(this.nodeCounter, value);
                 this.head = newNode;
-                //console.log("el arbol despues de añadir "+value+" es ");
-                //console.log(this.head);
                 return true;
             } else {
                 alert("El nodo ya esta ocupado.");
-                //console.log("el arbol despues de fallar es ");
-                //console.log(this.head);
                 return false;
             }
 
@@ -92,13 +88,9 @@ class Tree {
                     var newNode = new Node(this.nodeCounter, value);
                     newNode.parent = parentNode;
                     parentNode.left = newNode;
-                    //console.log("el arbol despues de añadir "+value+" es ");
-                    //console.log(this.head);
                     return true;
                 } else {
                     alert("El nodo ya esta ocupado.");
-                    //console.log("el arbol despues de fallar es ");
-                    //console.log(this.head);
                     return false;
                 }
 
@@ -108,13 +100,9 @@ class Tree {
                     var newNode = new Node(this.nodeCounter, value);
                     newNode.parent = parentNode;
                     parentNode.right = newNode;
-                    //console.log("el arbol despues de añadir "+value+" es ");
-                    //console.log(this.head);
                     return true;
                 } else {
                     alert("El nodo ya esta ocupado.");
-                    //console.log("el arbol despues de fallar es ");
-                    //console.log(this.head);
                     return false;
                 }
             } else {
@@ -223,14 +211,6 @@ class Tree {
         //y tienen las mismas relaciones 
         //y (NO todos los nodos de A estan contenidos en B  o  NO todos los nodos de B estan contenidos en A)
         
-        console.log("");
-        console.log("El conteo de nodos en A es "+this.nodeCounter+" y el conteo en B es "+otherTree.nodeCounter);
-        console.log("La comparacion de relaciones es");
-        console.log(this.hasSameRelations(this.head, otherTree.head));
-        console.log("La comparacion de nodos es");
-        console.log(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head));
-
-
         return this.nodeCounter === otherTree.nodeCounter &&
             !this.isEqual(this.head, otherTree.head) &&
             this.hasSameRelations(this.head, otherTree.head) &&
@@ -292,8 +272,6 @@ function addNode() {
     }
 
     if (!error) {
-        $('#directionTxt').val("");
-        $('#valueTxt').val("");
         $('#formModal').modal('hide');
         printTrees();
     }
@@ -365,6 +343,9 @@ $(document).ready(function () {//cuando el documento acabe de cargar
         var parentValue = button.data('parent-value'); // Extrae la info del atributo data-parent-value 
         var tree = button.data('tree'); // Extrae la info del atributo data-tree
         var modal = $(this);
+
+        modal.find('#valueTxt').val("");
+        modal.find('#directionTxt').val("");
 
         if (parent === "root") {//si estamos añadiendo a la raiz
             modal.find('#directionDiv').hide();//ocultar campo direccion
