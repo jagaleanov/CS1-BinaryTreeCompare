@@ -81,10 +81,10 @@ class Tree {
 
         } else {
             var parentNode = this.findId(this.head, parentId);
-            newNode.parent = parentNode;
 
             if (direction === "left") {
                 if (parentNode.left === null) {
+                    newNode.parent = parentNode;
                     parentNode.left = newNode;
                     return true;
                 } else {
@@ -94,6 +94,7 @@ class Tree {
 
             } else if (direction === "right") {
                 if (parentNode.right === null) {
+                    newNode.parent = parentNode;
                     parentNode.right = newNode;
                     return true;
                 } else {
@@ -255,12 +256,12 @@ function addNode() {
             alert("Seleccione una dirección para el nodo");
             error = true;
         } else {
-            if(!tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val())){
+            if (!tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val())) {
                 error = true;
             }
         }
     } else {
-        if(!tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val())){
+        if (!tree.addNode($('#parentTxt').val(), $('#directionTxt').val(), $('#valueTxt').val())) {
             error = true;
         }
     }
