@@ -67,15 +67,19 @@ class Tree {
     }
 
     addNode(parentId, direction, value) {
-        this.nodeCounter++;
-        var newNode = new Node(this.nodeCounter, value);
 
         if (parentId === "root") {
             if (this.head == null) {
+                this.nodeCounter++;
+                var newNode = new Node(this.nodeCounter, value);
                 this.head = newNode;
+                //console.log("el arbol despues de añadir "+value+" es ");
+                //console.log(this.head);
                 return true;
             } else {
                 alert("El nodo ya esta ocupado.");
+                //console.log("el arbol despues de fallar es ");
+                //console.log(this.head);
                 return false;
             }
 
@@ -84,21 +88,33 @@ class Tree {
 
             if (direction === "left") {
                 if (parentNode.left === null) {
+                    this.nodeCounter++;
+                    var newNode = new Node(this.nodeCounter, value);
                     newNode.parent = parentNode;
                     parentNode.left = newNode;
+                    //console.log("el arbol despues de añadir "+value+" es ");
+                    //console.log(this.head);
                     return true;
                 } else {
                     alert("El nodo ya esta ocupado.");
+                    //console.log("el arbol despues de fallar es ");
+                    //console.log(this.head);
                     return false;
                 }
 
             } else if (direction === "right") {
                 if (parentNode.right === null) {
+                    this.nodeCounter++;
+                    var newNode = new Node(this.nodeCounter, value);
                     newNode.parent = parentNode;
                     parentNode.right = newNode;
+                    //console.log("el arbol despues de añadir "+value+" es ");
+                    //console.log(this.head);
                     return true;
                 } else {
                     alert("El nodo ya esta ocupado.");
+                    //console.log("el arbol despues de fallar es ");
+                    //console.log(this.head);
                     return false;
                 }
             } else {
@@ -206,6 +222,15 @@ class Tree {
         //y NO son iguales
         //y tienen las mismas relaciones 
         //y (NO todos los nodos de A estan contenidos en B  o  NO todos los nodos de B estan contenidos en A)
+        
+        console.log("");
+        console.log("El conteo de nodos en A es "+this.nodeCounter+" y el conteo en B es "+otherTree.nodeCounter);
+        console.log("La comparacion de relaciones es");
+        console.log(this.hasSameRelations(this.head, otherTree.head));
+        console.log("La comparacion de nodos es");
+        console.log(this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head));
+
+
         return this.nodeCounter === otherTree.nodeCounter &&
             !this.isEqual(this.head, otherTree.head) &&
             this.hasSameRelations(this.head, otherTree.head) &&
