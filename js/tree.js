@@ -1,4 +1,5 @@
 // JavaScript Document
+
 class Node {
     id;
     value;
@@ -246,7 +247,7 @@ function addNode() {
 function printTrees() {
     if (treeA.head === null) {
         $('#addRootA').show();
-        $('#ulTreeA').html("Árbol vacio");
+        $('#ulTreeA').html("Árbol vacío");
     } else {
         $('#addRootA').hide();
         $('#ulTreeA').html(treeA.toHTML(treeA.head, "A"));
@@ -254,7 +255,7 @@ function printTrees() {
 
     if (treeB.head === null) {
         $('#addRootB').show();
-        $('#ulTreeB').html("Árbol vacio");
+        $('#ulTreeB').html("Árbol vacío");
     } else {
         $('#addRootB').hide();
         $('#ulTreeB').html(treeB.toHTML(treeB.head, "B"));
