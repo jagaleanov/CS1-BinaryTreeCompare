@@ -116,16 +116,25 @@ class Tree {
 
     //revisa si los arboles tienen la misma forma sin importar los valores
     hasSameRelations(headA, headB) {
+        //console.log("Comparando nodo a:");
+        //console.log(headA);
+        //console.log("Comparando nodo b:");
+        //console.log(headB);
+
         if (headA === null) {
             if (headB === null) {
+                //onsole.log("Ambos nodos son nulos, TRUE");
                 return true;
             } else {
+                //console.log("Solo A es nulo, FALSE");
                 return false;
             }
         } else {
             if (headB !== null) {
+                //console.log("Ambos estan llenos (recursion)");
                 return this.hasSameRelations(headA.left, headB.left) && this.hasSameRelations(headA.right, headB.right);
             } else {
+                //console.log("Solo B es nulo, FALSE");
                 return false;
             }
 
@@ -212,7 +221,6 @@ var treeA = new Tree();
 var treeB = new Tree();
 
 function addNode() {
-
     var error = false;
 
     //revisar a que arbol va a añadir
