@@ -48,20 +48,28 @@ class Tree {
 
     //Buscar nodo por valor, se usa para las comparaciones
     findValue(head, value) {
+        console.log("");
+        console.log("Buscando "+value+" en arbol");
+        console.log(head);
         if (head !== null) {
             var leftSearch = this.findValue(head.left, value);
             var rightSearch = this.findValue(head.right, value);
 
             if (value === head.value) {
+                console.log("valor "+value+" encontrado");
                 return head;
-            } else if (leftSearch !== null) {
+            } else if (leftSearch !== false) {
+                console.log("valor "+value+" encontrado en (recursion izq de "+head.value+")");
                 return leftSearch;
-            } else if (rightSearch !== null) {
+            } else if (rightSearch !== false) {
+                console.log("valor "+value+" encontrado en (recursion der de "+head.value+")");
                 return rightSearch;
             } else {
+                console.log("valor "+value+" NO encontrado, false");
                 return false;
             }
         } else {
+            console.log("valor "+value+" NO encontrado, El arbol esta vacio, false");
             return false;
         }
     }
@@ -168,12 +176,19 @@ class Tree {
 
     //revisa si todos los nodos del árbol A se encuentran en el arbol B
     hasSameNodes(headA, headB) {
+        //console.log("Comparando nodo A");
+        //console.log(headA);
+        //console.log("Comparando nodo B");
+        //console.log(headB);
         if (headA === null) {
+            //console.log("Nodo de A es null, true");
             return true;
         } else {
             if (this.findValue(headB, headA.value)) {
+                //console.log("el valor "+headA.value+" se encuentra en B (recursion)");
                 return this.hasSameNodes(headA.left, headB) && this.hasSameNodes(headA.right, headB);
             } else {
+                //console.log("el valor "+headA.value+" NO se encuentra en B, false");
                 return false;
             }
         }
@@ -220,13 +235,27 @@ class Tree {
     //Semejantes
     isLike(otherTree) {
         //si tienen la misma cantidad de nodos 
-        //y NO son iguales
-        //y NO tienen las mismas relaciones 
+        //y (NO tienen las mismas relaciones o NO son iguales nodo a nodo) 
         //y (todos los nodos de A estan contenidos en B  y  todos los nodos de B estan contenidos en A)
+
+        /*
+        console.log("");
+        console.log("El conteo de nodos en A es "+this.nodeCounter+" y el conteo en B es "+otherTree.nodeCounter);
+        console.log("La comparacion de relaciones es");
+        console.log(this.hasSameRelations(this.head, otherTree.head));
+        console.log("La comparacion de nodos es");
+        console.log((this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head)));
+        
+        console.log("LOS NODOS DE A ESTAN EN B");
+        console.log(this.hasSameNodes(this.head, otherTree.head));
+        
+        console.log("LOS NODOS DE B ESTAN EN A");
+        console.log(this.hasSameNodes(otherTree.head, this.head));
+*/
         return this.nodeCounter === otherTree.nodeCounter &&
-            !this.isEqual(this.head, otherTree.head) &&
-            !this.hasSameRelations(this.head, otherTree.head) &&
+            (!this.hasSameRelations(this.head, otherTree.head) || !this.isEqual(this.head, otherTree.head)) &&
             (this.hasSameNodes(this.head, otherTree.head) && this.hasSameNodes(otherTree.head, this.head));
+            
     }
 
     isDistinctTo(otherTree) {
@@ -298,11 +327,11 @@ function printTrees() {
 }
 
 function printCompare() {
-
     var equal = treeA.isEqualTo(treeB);
     var similar = treeA.isSimilarTo(treeB);
     var like = treeA.isLike(treeB);
     var distinct = treeA.isDistinctTo(treeB);
+
 
     if (equal) {
         $('#equalString').html("Verdadero");//colocar valor
