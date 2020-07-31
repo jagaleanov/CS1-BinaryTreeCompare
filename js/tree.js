@@ -48,28 +48,23 @@ class Tree {
 
     //Buscar nodo por valor, se usa para las comparaciones
     findValue(head, value) {
-        console.log("");
-        console.log("Buscando "+value+" en arbol");
-        console.log(head);
+        //console.log("");
+        //console.log("Buscando "+value+" en arbol");
+        //console.log(head);
         if (head !== null) {
             var leftSearch = this.findValue(head.left, value);
             var rightSearch = this.findValue(head.right, value);
 
             if (value === head.value) {
-                console.log("valor "+value+" encontrado");
                 return head;
             } else if (leftSearch !== false) {
-                console.log("valor "+value+" encontrado en (recursion izq de "+head.value+")");
                 return leftSearch;
             } else if (rightSearch !== false) {
-                console.log("valor "+value+" encontrado en (recursion der de "+head.value+")");
                 return rightSearch;
             } else {
-                console.log("valor "+value+" NO encontrado, false");
                 return false;
             }
         } else {
-            console.log("valor "+value+" NO encontrado, El arbol esta vacio, false");
             return false;
         }
     }
